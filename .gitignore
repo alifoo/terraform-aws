@@ -1,0 +1,16 @@
+credentials
+.env
+
+terraform.tfstate
+terraform.tfstate.backup
+
+crash.log
+
+.terraform/
+credenciais.txt
+
+.DS_Store
+*.swp
+*.swo
+
+AWSCLIV2.pkg
