@@ -18,3 +18,26 @@ resource "aws_subnet" "subnets" {
   }
 }
 
+resource "aws_internet_gateway" "new-igw" {
+  vpc_id = aws_vpc.new-vpc.id
+  tags = {
+    Name = "${var.prefix}-igw"
+  }
+}
+
+resource "aws_route_table" "new-rtb" {
+  vpc_id = aws_vpc.new-vpc.id
+  tags = {
+    Name = "${var.prefix}-rtb"
+  }
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.new-igw.id
+  }
+}
+
+resource "aws_route_table_association" "new-rtb-association" {
+  count          = 2
+  subnet_id      = aws_subnet.subnets.*.id[count.index]
+  route_table_id = aws_route_table.new-rtb.id
+}
